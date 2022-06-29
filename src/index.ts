@@ -6,6 +6,7 @@ import http = require('http');
 import bodyparser = require('body-parser');
 import colors = require('colors');
 import { getModel, newUser } from './models/user';
+import authRoutes = require('./routes/auth-routes');
 
 colors.enabled = true;
 const app = express();
@@ -14,14 +15,17 @@ app.use(bodyparser.json())
 
 var server = http.createServer(app);
 
+app.get("/", (req, res) => {
+    res.status(200).json({ api_version: "1.0", endpoints: ["/auth", "/user"] });
+});
+
+app.use('/auth', authRoutes);
+
 mongoose.connect(process.env.DB_URI)
     .then(
         () => {
-            let data = {username: 'admin', email:'admin', digest:'admin'};
-            console.log('Connected to DB'.rainbow.bgWhite);            
+            console.log('Connected to DB'.rainbow.bgBlack);            
             server.listen(8080, () => console.log("HTTP Server started at http://localhost:8080"));
-            newUser(data).save();
-
         }
     ).catch(
         (err) => {
