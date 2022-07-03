@@ -1,10 +1,10 @@
 import './App.css';
-import Button from 'react-bootstrap/Button';
 
 function App() {
     return (
         <div className="App">
-            <Button>submit</Button>
+            {/* <Button>submit</Button> */}
+            <button className="btn btn-primary">aa</button>
         </div>
     );
 }
