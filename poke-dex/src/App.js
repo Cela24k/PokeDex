@@ -1,11 +1,10 @@
 import './App.css';
+import './scss/_app.scss';
+import './components/Header';
 
 function App() {
     return (
-        <div className="App">
-            {/* <Button>submit</Button> */}
-            <button className="btn btn-primary">aa</button>
-        </div>
+        <Header />
     );
 }
 
