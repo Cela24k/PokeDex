@@ -1,9 +1,12 @@
 import '../scss/_main.scss';
-import React from 'react';
+import { SinglePokemon } from './SinglePokemon'
+import React, { useState, useEffect } from 'react';
 
 export function Main(){
     return (
-        <div>Main</div>
+        <main className="container">
+            <h1>Er Pokédex</h1>
+            <SinglePokemon />
+        </main>
     );
 }
-
