@@ -1,9 +1,7 @@
 import '../scss/_header.scss';
+import React from 'react';
 
-function Header() {
-    return (
-        <div>ojdnfonwdojf</div>
-    );
+export function Header(props){
+    return (<div>Ciao</div>);
 }
 
-export default Header;
