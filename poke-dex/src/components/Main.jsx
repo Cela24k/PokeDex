@@ -8,13 +8,23 @@ export function Main(){
     const [pokemonList, setPokemonList] = useState([]);
     const url = "https://pokeapi.co/api/v2/pokemon/";
 
+    let lista = [];
     useEffect(() => {
         axios.get(url)
             .then((res) => {
-                const responsePokemon = res.data.results;
+                let responsePokemon = res.data.results;
                 setPokemonList(responsePokemon);
-                url = res.data.next;
-        });
+
+                
+                responsePokemon.map((e) => {
+                    axios.get(e.url)
+                        .then((res) => {
+                            lista[res.data.id] = res.data;
+                            // setPokemonList(lista);
+                            // console.log(lista);
+                        })
+                });
+        }).then(()=>setPokemonList(lista))
     }, []);
     
     return (
@@ -23,9 +33,8 @@ export function Main(){
             <div className='row mt-4'>
             {
                 pokemonList.map((pokemon) => {
-                    console.log(pokemon);
                     return (
-                        <SinglePokemon key={pokemon.id} name={pokemon.name} />
+                        <SinglePokemon key={pokemon.name} name={pokemon.name} />
                     )
                 })
             }
