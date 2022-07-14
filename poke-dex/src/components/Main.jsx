@@ -7,21 +7,27 @@ var next = 'https://pokeapi.co/api/v2/pokemon';
 
 export function Main() {
     const [pokemonList, setPokemonList] = useState([]);
-    const [loaded,setLoaded] = useState(false);
+    const [loading,setLoading] = useState(false);
 
     useEffect(()=>{
         async function loadPoke() {return await populateList()};
+        setLoading(true);
+
         loadPoke().then((e)=>{
-            setPokemonList(e) 
-            setLoaded(true);
+            setPokemonList(e);
+            setLoading(false);
             console.log(e);
-        }).catch((e)=> console.log('Error '+e));
+        }).catch((e)=> {
+            setLoading(false);
+            console.log('Error '+e)
+        });
     }, []);
-    return loaded?(
+
+    return !loading?(
         <main className="container">
             <h1>Er Pokédex</h1>
             <SinglePokemon name="Niggamon"/>
-            {/*pokemonList.map((e) => {console.log('pls')})*/}
+            {pokemonList.map((e,idx)=><SinglePokemon name={e.name} key={idx} />)}
         </main>
     ):(
         <div>Caricamento...</div>)
@@ -33,7 +39,8 @@ async function populateList() {
         .then((res) => {
             next = res.data.next;
             res.data.results.map((e) => {
-                axios.get(e.url)
+
+                return axios.get(e.url)
                     .then((res) => {
                         list[res.data.id] = res.data;
                     })
