@@ -6,10 +6,12 @@ import React, { useState, useEffect } from 'react';
 export function Main(){
 
     const [pokemonList, setPokemonList] = useState([]);
+    const [loading, setLoading] = useState(false);
     const url = "https://pokeapi.co/api/v2/pokemon/";
 
     let lista = [];
     useEffect(() => {
+        setLoading(true);
         axios.get(url)
             .then((res) => {
                 let responsePokemon = res.data.results;
@@ -24,10 +26,14 @@ export function Main(){
                             // console.log(lista);
                         })
                 });
-        }).then(()=>setPokemonList(lista))
+        }).then(() => {
+            setPokemonList(lista);
+            setLoading(false);
+        });
     }, []);
     
-    return (
+
+    return (loading) ? <div>Caricamento...</div> : (
         <main className="container">
             <h1>Er Pokédex</h1>
             <div className='row mt-4'>
